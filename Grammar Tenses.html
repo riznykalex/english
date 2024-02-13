@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Grammar Tenses</title>
+
+</head>
+
+<body>
+
+    <style>
+        .container {
+            font-family: 'Arial';
+            font-size: 1.2em;
+            background-color: #ddd;
+            min-height: 500px;
+            padding-left: 15px;
+            padding-top: 10px;
+        }
+
+        .red {
+            color: red;
+        }
+
+        .blue {
+            color: blue;
+        }
+
+        .green {
+            color: green;
+        }
+
+    </style>
+    <div class="container">
+        <h1>Граматичні часи (довідник)</h1>
+        <select id="tenseSelect" onchange="displayGrammarTense(this.value)">
+            <option value="">Оберіть граматичний час</option>
+        </select>
+        <div id="grammarInfo"></div>
+    </div>
+    <script>
+        var grammarData = {
+            "Present Simple": {
+                "usage": "Дії, що відбуваються регулярно, факти, загальні правди.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + <span class=\"green\">Verb (s/es)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Do/Does + Not + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span>",
+                    "question": "Do/Does + <span class=\"blue\">Subject</span> + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">I</span> <span class=\"green\">work</span> in an <span class=\"red\">office</span>.",
+                    "<span class=\"blue\">She</span> doesn't <span class=\"green\">like</span> <span class=\"red\">coffee</span>.",
+                    "Do <span class=\"blue\">you</span> <span class=\"green\">play</span> <span class=\"red\">tennis</span>?"
+                ]
+            },
+            "Present Continuous": {
+                "usage": "Дії, що відбуваються в даний момент.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Am/Is/Are + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Am/Is/Are + Not + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "question": "Am/Is/Are + <span class=\"blue\">Subject</span> + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">They</span> are <span class=\"green\">watching</span> <span class=\"red\">TV</span> now.",
+                    "<span class=\"blue\">They</span> aren't <span class=\"green\">studying </span>  <span class=\"red\">French </span> at the moment.",
+                    "Are <span class=\"blue\">you</span> <span class=\"green\">listening</span> to <span class=\"red\">me</span>?"
+                ]
+            },
+            "Present Perfect": {
+                "usage": "Дії, що відбулися в минулому і мають зв'язок з поточним моментом.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Have/Has + <span class=\"green\">Past Participle</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Have/Has + Not + <span class=\"green\">Past Participle</span> + <span class=\"red\">Object</span>",
+                    "question": "Have/Has + <span class=\"blue\">Subject</span> + <span class=\"green\">Past Participle</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">I</span> have <span class=\"green\">visited</span> <span class=\"red\">Paris</span>.",
+                    "<span class=\"blue\">She</span> hasn't <span class=\"green\">finished</span> her <span class=\"red\">work</span> yet.",
+                    "Have <span class=\"blue\">you</span> ever <span class=\"green\">been</span> in <span class=\"red\">Japan</span>?"
+                ]
+            },
+            "Past Simple": {
+                "usage": "Дії, що відбувалися в минулому.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + <span class=\"green\">Verb (ed/irregular)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Did + Not + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span>",
+                    "question": "Did + <span class=\"blue\">Subject</span> + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">We</span> <span class=\"green\">visited</span> <span class=\"red\">Paris</span> last summer.",
+                    "<span class=\"blue\">He</span> didn't <span class=\"green\">finish</span> his <span class=\"red\">homework</span>.",
+                    "Did <span class=\"blue\">you</span> <span class=\"green\">see</span> that <span class=\"red\">movie</span>?"
+                ]
+            },
+            "Past Continuous": {
+                "usage": "Дії, що відбувалися в певний момент у минулому.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Was/Were + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Was/Were + Not + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "question": "Was/Were + <span class=\"blue\">Subject</span> + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">She</span> was <span class=\"green\">cooking</span> <span class=\"red\">dinner</span> when I arrived.",
+                    "<span class=\"blue\">He</span> wasn't <span class=\"green\">watching</span> the <span class=\"red\">movie</span> when the power went out.",
+                    "Were <span class=\"blue\">you</span> <span class=\"green\">listening</span> to <span class=\"red\">music</span>?"
+                ]
+            },
+            "Future Simple": {
+                "usage": "Плановані дії у майбутньому.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Will + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Will + Not + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span>",
+                    "question": "Will + <span class=\"blue\">Subject</span> + <span class=\"green\">Verb</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">I</span> will <span class=\"green\">call</span> <span class=\"red\">you</span> later.",
+                    "<span class=\"blue\">She</span> won't <span class=\"green\">come</span> to the <span class=\"red\">party</span>.",
+                    "Will <span class=\"blue\">you</span> <span class=\"green\">help</span> <span class=\"red\">me</span> with this?"
+                ]
+            },
+            "Past Perfect Continuous": {
+                "usage": "Дії, що тривали протягом певного періоду часу в минулому і закінчилися до певного моменту в минулому.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Had + Been + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Had + Not + Been + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "question": "Had + <span class=\"blue\">Subject</span> + Been + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">I</span> had been <span class=\"green\">cooking</span></span> <span class=\"red\">dinner</span> for an hour when she arrived.",
+                    "<span class=\"blue\">She</span> had not been <span class=\"green\">studying</span> <span class=\"red\">English</span> for very long before he moved to France.",
+                    "Had <span class=\"blue\">they</span> been <span class=\"green\">playing</span> <span class=\"red\">football</span> when it started raining?"
+                ]
+            },
+            "Future Continuous": {
+                "usage": "Дії, які триватимуть протягом певного періоду часу в майбутньому.",
+                "structure": {
+                    "positive": "<span class=\"blue\">Subject</span> + Will + Be + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "negative": "<span class=\"blue\">Subject</span> + Will + Not + Be + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span>",
+                    "question": "Will + <span class=\"blue\">Subject</span> + Be + <span class=\"green\">Verb (-ing)</span> + <span class=\"red\">Object</span> + ?"
+                },
+                "examples": [
+                    "<span class=\"blue\">I</span> will be <span class=\"green\">working</span> on <span class=\"red\">the project</span> for the next few weeks.",
+                    "<span class=\"blue\">They</span> won't be <span class=\"green\">studying</span> <span class=\"red\">English</span> tomorrow.",
+                    "Will <span class=\"blue\">she</span> be <span class=\"green\">attending</span> the <span class=\"red\">conference</span> tomorrow?"
+                ]
+            }
+        };
+
+
+
+
+        window.onload = function() {
+            var select = document.getElementById("tenseSelect");
+            for (var tense in grammarData) {
+                var option = document.createElement("option");
+                option.value = tense;
+                option.text = tense;
+                select.appendChild(option);
+            }
+        };
+
+        function displayGrammarTense(tense) {
+            var tenseData = grammarData[tense];
+            var output = "<h2>" + tense + "</h2>";
+            output += "<p><strong>Використання:</strong> " + tenseData.usage + "</p>";
+            output += "<p><strong>Структура:</strong><ul>";
+            output += "<li><strong>Positive:</strong> " + tenseData.structure.positive + "</li>";
+            output += "<li><strong>Negative:</strong> " + tenseData.structure.negative + "</li>";
+            output += "<li><strong>Question:</strong> " + tenseData.structure.question + "</li>";
+            output += "</ul></p>";
+            output += "<p><strong>Приклади:</strong><ul>";
+            tenseData.examples.forEach(function(example) {
+                output += "<li>" + example + "</li>";
+            });
+            output += "</ul></p>";
+            document.getElementById("grammarInfo").innerHTML = output;
+        }
+
+    </script>
+
+</body>
+
+</html>
